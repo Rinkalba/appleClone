@@ -38,7 +38,7 @@ export const highlightFourthVideo = highlightFourthmv;
 export const exploreVideo = exploremv;
 export const frameVideo = framemv;
 
-export const appleImg = apple;
+export const appleImg:any = apple;
 export const searchImg = search;
 export const bagImg = bag;
 export const watchImg = watch;
