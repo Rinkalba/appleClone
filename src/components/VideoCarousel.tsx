@@ -31,6 +31,11 @@ const VideoCarousel = () => {
                 setVideo((prevVideo) => ({...prevVideo , startPlay:true , isPlaying:true}))
             }
         })
+        gsap.to('#silder',{
+            transform: `translateX(${-100 * videoId}%)`,
+            duration:2,
+            ease:'power2.inOut'
+        })
     },[isEnd,videoId])
 
     //playing of video
@@ -89,7 +94,7 @@ const VideoCarousel = () => {
             }
 
            const animUpdate = () => {
-            anim.progress(videoRef.current[videoId] / hightlightsSlides[videoId].videoDuration)
+            anim.progress(videoRef.current[videoId].currentTime / hightlightsSlides[videoId].videoDuration)
            } 
 
            if(isPlaying){
@@ -102,10 +107,10 @@ const VideoCarousel = () => {
         
     }, [videoId,startPlay])
 
-    const handleProcess  = (type :any ,i : any )  => {
+    const handleProcess  = (type :any ,i ?: any )  => {
         switch(type){
             case 'video-end':
-                setVideo((prevVideo) => ({...prevVideo , isEnd:true ,videoUd:i+1}))
+                setVideo((prevVideo) => ({...prevVideo , isEnd:true ,videoId:i+1}))
                 break;
             case 'video-last':
                 setVideo((pre) => ({...pre,isLastVideo:true}))
@@ -131,6 +136,9 @@ const VideoCarousel = () => {
                     <div className="w-full h-full flex-center rounded-3xl overflow-hidden bg-black">
                         <video id="video" playsInline={true} preload='auto' muted 
                             ref= {(el)=> (videoRef.current[i] = el)}
+                            onEnded={()=>
+                                i!==3 ? handleProcess('video-end',i) : handleProcess('video-last')
+                            }
                             onPlay={ () => {
                                 setVideo( (prevVideo) => ( {...prevVideo, isPlaying:true} ))
                             }}
