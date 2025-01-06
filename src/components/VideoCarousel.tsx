@@ -31,7 +31,7 @@ const VideoCarousel = () => {
                 setVideo((prevVideo) => ({...prevVideo , startPlay:true , isPlaying:true}))
             }
         })
-        gsap.to('#silder',{
+        gsap.to('#slider',{
             transform: `translateX(${-100 * videoId}%)`,
             duration:2,
             ease:'power2.inOut'
@@ -121,6 +121,10 @@ const VideoCarousel = () => {
             case 'play':
                 setVideo((pre) => ({...pre,isPlaying:!pre.isPlaying}))
                 break;
+            case 'pause':
+                setVideo((pre) => ({...pre,isPlaying:!pre.isPlaying}))
+                break;
+            case'replay':
             default:
                 return video;
             
