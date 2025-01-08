@@ -1,13 +1,13 @@
-import { Key, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { hightlightsSlides } from '../constants'
 import { pauseImg, playImg, replayImg } from '../utils';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
 const VideoCarousel = () => {
-    const videoRef :any = useRef([]);
-    const videoSpanRef:any = useRef([]);
-    const videoDivRef :any = useRef([]);
+    const videoRef = useRef([]);
+    const videoSpanRef = useRef([]);
+    const videoDivRef = useRef([]);
 
     const [video, setVideo] = useState({
         isEnd:false,
@@ -17,7 +17,7 @@ const VideoCarousel = () => {
         isPlaying:false,
     })
 
-    const [loadedData, setloadedData]:any = useState([])
+    const [loadedData, setloadedData] = useState([])
 
     const {isEnd, startPlay, videoId, isLastVideo, isPlaying} = video;
 
@@ -49,7 +49,7 @@ const VideoCarousel = () => {
         }
     },[startPlay , videoId,isPlaying ,loadedData])
 
-    const handleLoadedData = (i:any,e:any) => setloadedData((pre: any)=> [...pre,e])
+    const handleLoadedData = (_i,e) => setloadedData((pre)=> [...pre,e])
     //while playing-progress
     useEffect(() => {
         let currentProgress = 0;
@@ -57,7 +57,7 @@ const VideoCarousel = () => {
         
         if(span[videoId]){
             //animate the progress of video
-            let anim :any = gsap.to(span[videoId],{
+            let anim = gsap.to(span[videoId],{
                 onUpdate:()=>{
                     const progress =Math.ceil(anim.progress()*100)
                     if(progress != currentProgress){
@@ -107,7 +107,7 @@ const VideoCarousel = () => {
         
     }, [videoId,startPlay])
 
-    const handleProcess  = (type :any ,i ?: any )  => {
+    const handleProcess  = (type ,i  )  => {
         switch(type){
             case 'video-end':
                 setVideo((prevVideo) => ({...prevVideo , isEnd:true ,videoId:i+1}))
@@ -139,6 +139,7 @@ const VideoCarousel = () => {
                 <div className="video-carousel_container">
                     <div className="w-full h-full flex-center rounded-3xl overflow-hidden bg-black">
                         <video id="video" playsInline={true} preload='auto' muted 
+                            className={`${list.id === 2 && 'translate-x-44'} pointer-events-none`}
                             ref= {(el)=> (videoRef.current[i] = el)}
                             onEnded={()=>
                                 i!==3 ? handleProcess('video-end',i) : handleProcess('video-last')
@@ -165,7 +166,7 @@ const VideoCarousel = () => {
     
     <div className="relative flex-center mt-10">
         <div className="flex-center py-5 px-7 bg-gray-300 backdrop-blur rounded-full">
-            {videoRef.current.map((_: any,i: any)=> (
+            {videoRef.current.map((_,i)=> (
                 <span key={i} ref={(el) => (videoDivRef.current[i] = el)}
                 className='mx-2 w-3 h-3 bg-gray-200 relative rounded-full cursor-pointer'>
                 <span className="absolute h-full w-full rounded-full"
